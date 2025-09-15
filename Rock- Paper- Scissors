@@ -1,0 +1,94 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+using namespace std;
+
+
+int getComputerChoice();
+void printMenu();
+int chooseWinner(int, int);
+string displayWordChoice(int);
+
+int main()
+{
+    srand(time(0));
+    int computerChoice, playerChoice, winningPlayer;
+    char playAgain;
+
+    do
+    {
+        computerChoice = getComputerChoice();
+        printMenu();
+        cout << "What do you choose? ";
+        cin >> playerChoice;
+
+        while (playerChoice < 1 || playerChoice > 3)
+        {
+            cout << "That was not a valid choice. Try again." << endl;
+            printMenu();
+            cout << "What do you choose? ";
+            cin >> playerChoice;
+        }
+
+        cout << endl << "You chose: " << displayWordChoice(playerChoice) << endl;
+        cout << "Computer chose: " << displayWordChoice(computerChoice) << endl;
+
+        winningPlayer = chooseWinner(playerChoice, computerChoice);
+
+        if (winningPlayer == 1)
+            cout << "*** You win! ***" << endl;
+        else if (winningPlayer == 2)
+            cout << "*** Computer Wins! ***" << endl;
+        else
+            cout << "*** It's a tie! ***" << endl;
+
+        cout << endl << "Want to play again? (y/n): ";
+        cin.ignore();
+        cin.get(playAgain);
+
+    } while (playAgain == 'Y' || playAgain == 'y');
+
+    return 0;
+}
+
+int getComputerChoice()
+{
+    int val = rand() % 3;
+    val++;
+    return val;
+}
+
+void printMenu()
+{
+    cout << "Let's play Rock, Paper, Scissors!" << endl;
+    cout << "1. Rock" << endl;
+    cout << "2. Paper" << endl;
+    cout << "3. Scissors" << endl;
+}
+
+const int ROCK = 1;
+const int PAPER = 2;
+const int SCISSORS = 3;
+
+int chooseWinner(int player, int computer)
+{
+    if (player == computer)
+        return 3;
+    else if ((player == ROCK && computer == SCISSORS) ||
+             (player == PAPER && computer == ROCK) ||
+             (player == SCISSORS && computer == PAPER))
+        return 1;
+    else
+        return 2;
+}
+
+string displayWordChoice(int choice)
+{
+    if (choice == 1)
+        return "Rock";
+    else if (choice == 2)
+        return "Paper";
+    else
+        return "Scissors";
+}
